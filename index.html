@@ -6,8 +6,8 @@
 			margin: 0;
 		}
 		.leaflet-container {
-			height: 600px;
-			width: 800px;
+			height: 1400px;
+			width: 2400px;
 			max-width: 100%;
 			max-height: 100%;
 		}
@@ -20,10 +20,10 @@
 integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
 crossorigin=""/>
 
- <!-- Make sure you put this AFTER Leaflet's CSS -->
- <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
-   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-   crossorigin="">
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+crossorigin="">
 </script>
 
 <div id="map"></div>
@@ -31,7 +31,7 @@ crossorigin=""/>
     #map { height: 480px; }
 </style> -->
 
-<style>#map { width: 800px; height: 500px; }
+<style>#map { width: 1400; height: 800; }
     .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
     .legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }</style>
     <style type="text/css">@font-face {
@@ -43,10 +43,15 @@ crossorigin=""/>
 
 
 <!-- <script src="strade28sezioniGalatina.js"></script> -->
-<script type="text/javascript" src="./costruzioneGeoJson28Sezioni.js"></script>
-
+<script type="text/javascript" src="costruzioneGeoJson28Sezioni.js"></script>
 <script>
 
+    function url_par(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const num_candidato = urlParams.get('param')
+        return(num_candidato)
+    }
     var map = L.map('map').setView([40.18, 18.17], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -65,30 +70,64 @@ crossorigin=""/>
     };
 
     info.update = function (props) {
-        this._div.innerHTML = '<h4>Voti del candidato</h4>' +  (props ?
-            '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>' : 'Ancora non settato');
-    };
+        this._div.innerHTML = ' <table>'+
+'            <thead>'+
+'                <tr>'+
+'                    <th colspan="2"><h2>Esplora le votazioni 2022</h2></th>'+
+'                </tr>'+
+'            </thead>'+
+'            <tbody>'+
+    '                <tr>'+
+    '                    <th colspan="2"><h3>I candidati sindaco</h3></th>'+
+    '                </tr>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=1" title="Preferenze candidato sindaco VERGINE">Vergine</a></td>'+
+'                    <td><a href="index.html?param=2" title="Preferenze candidato sindaco AMANTE">Amante</a></td>'+
+'                </tr>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=3" title="Preferenze candidato sindaco ANTONICA">Antonica</a></td>'+
+'                    <td><a href="index.html?param=4" title="Preferenze candidato sindaco ANTONACI">Antoncaci</a></td>'+
+'                </tr>'+
+'            </tbody>'+
+'            <thead>'+
+'                <tr>'+
+'                    <th colspan="2"><h3>Confronti tra candidati</h3></th>'+
+'                </tr>'+
+'            <tbody>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=5" title="Differenza di voti VERGINE vs AMANTE ">Vergine - Amante</a></td>'+
+'                    <td><a href="index.html?param=6" title="Differenza di voti AMANTE vs ANTONICA">Amante - Antonica</a></td>'+
+'                </tr>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=7" title="Differenza di voti ANTONICA vs ANTONACI ">Antonica - Antonaci</a></td>'+
+'        </table>' 
+};
 
     info.addTo(map);
 
 
 // get color depending on population density value
-        function getColor(d) {
-        return d > 300 ? '#800026' :  //800026
-            d > 270  ? '#BD0026' :
-            d > 240  ? '#E31A1C' :
-            d > 210  ? '#FC4E2A' :
-            d > 180   ? '#FD8D3C' :
-            d > 150   ? '#FEB24C' :
-            d > 120   ? '#FED976' : '#111111';
+        function getColor_red(d) {
+        return d > 1000 ? '#000000' ://'##660707' :  //800026
+            d > 270  ? '#880a0a' :
+            d > 240  ? '#aa0c0c' :
+            d > 210  ? '#cc0f0f' :
+            d > 180   ? '#ee1212' :
+            d > 150   ? '#f03333' :
+            d > 120   ? '#f35555' :
+            d > 90    ? '#f57777' :
+            d > 60    ?  '#f89999' :
+            d > 30 ?  '#fabbbb' : 
+            d > 0 ?  '#fddddd' : '#959d92';
     }
     
     
     function style(feature) {
         // var cand = feature.properties.Vergine;
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const candidato = urlParams.get('param')
+            // const queryString = window.location.search;
+            // const urlParams = new URLSearchParams(queryString);
+            // const candidato = urlParams.get('param')
+        candidato = url_par()
         console.log(candidato);
         var selezione
         switch(candidato){
@@ -118,17 +157,19 @@ crossorigin=""/>
                 break;
         }
         return {
-            weight: 2,
+            weight: 4,
             opacity: 1,
-            color: getColor(selezione),//(feature.properties.Sezione) ,// 'black',
-            // dashArray: '3',
+            color: getColor_red(selezione),//(feature.properties.Sezione) ,// 'black',
+            dashArray: '5',
             fillOpacity: 0.7,
-            fillColor: getColor(feature.properties.Vergine)
+            fillColor: getColor_red(feature.properties.Vergine)
         };
     }
 
 	function highlightFeature(e) {
+        console.log(e)
 		var layer = e.target;
+        consolo.log(layer)
 
 		layer.setStyle({
 			weight: 5,
@@ -141,7 +182,7 @@ crossorigin=""/>
 			layer.bringToFront();
 		}
 
-		info.update(layer.feature.properties);
+		info.update(layer.feature.properties.Sezione);
 	}
 
 	var geojson;
@@ -173,16 +214,16 @@ crossorigin=""/>
 	legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend');
-		var grades = [-1, 0, 20, 40, 70, 100, 200, 300];
+		var grades = [-1, 0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
 		var labels = [];
 		var from, to;
 
-		for (var i = 0; i < grades.length; i++) {
+		for (var i = 0; i < grades.length ; i++) {
 			from = grades[i];
 			to = grades[i + 1];
 
 			labels.push(
-				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				'<i style="background:' + getColor_red(from + 1) + '"></i> ' +
 				from + (to ? '&ndash;' + to : '+'));
 		}
 
