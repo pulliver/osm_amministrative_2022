@@ -1,0 +1,197 @@
+<html>
+    
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 600px;
+			width: 800px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+
+</html>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+crossorigin=""/>
+
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+   crossorigin="">
+</script>
+
+<div id="map"></div>
+<!-- <style>
+    #map { height: 480px; }
+</style> -->
+
+<style>#map { width: 800px; height: 500px; }
+    .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+    .legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }</style>
+    <style type="text/css">@font-face {
+      font-family: 'rbicon';
+      src: url(chrome-extension://dipiagiiohfljcicegpgffpbnjmgjcnf/fonts/rbicon.woff2) format("woff2");
+      font-weight: normal;
+      font-style: normal; }
+    </style>
+
+
+<!-- <script src="strade28sezioniGalatina.js"></script> -->
+<script type="text/javascript" src="../costruzioneGeoJson28Sezioni.js"></script>
+
+<script>
+
+    var map = L.map('map').setView([40.18, 18.17], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    
+	// control that shows state info on hover
+	var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+
+    info.update = function (props) {
+        this._div.innerHTML = '<h4>Voti del candidato</h4>' +  (props ?
+            '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>' : 'Ancora non settato');
+    };
+
+    info.addTo(map);
+
+
+// get color depending on population density value
+        function getColor(d) {
+        return d > 300 ? '#800026' :  //800026
+            d > 200  ? '#BD0026' :
+            d > 100  ? '#E31A1C' :
+            d > 70  ? '#FC4E2A' :
+            d > 40   ? '#FD8D3C' :
+            d > 20   ? '#FEB24C' :
+            d > 0   ? '#FED976' : '#111111';
+    }
+    
+    
+    function style(feature) {
+        // var cand = feature.properties.Vergine;
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const candidato = urlParams.get('param')
+        console.log(candidato);
+        var selezione
+        switch(candidato){
+            case '1' : // vergine
+                selezione=feature.properties.Vergine;
+                break;
+            case '2' : // Amante
+                selezione = feature.properties.Amante;
+                break;
+            case '3' : // Antonica
+                selezione = feature.properties.Antonica;
+                break;
+            case '4' : // Antoncaci
+                selezione = feature.properties.Antonaci;
+                break;
+            case '5' : // VergineVsAmante
+                selezione = feature.properties.VergineVsAmante;
+                break;
+            case '6' : // AmanteVsAntonica
+                selezione = feature.properties.AmanteVsAntonica;
+                break;
+            case '7' : // AntonicaVsAntonaci
+                selezione = feature.properties.AntonicaVsAntonaci; 
+                break; 
+            default :
+                selezione = feature.properties.Sezione;       
+                break;
+        }
+        return {
+            weight: 2,
+            opacity: 1,
+            color: getColor(selezione),//(feature.properties.Sezione) ,// 'black',
+            // dashArray: '3',
+            fillOpacity: 0.7,
+            fillColor: getColor(feature.properties.Vergine)
+        };
+    }
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+		info.update(layer.feature.properties);
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+    L.geoJSON(grafo, {
+		style: style
+		// ,onEachFeature: onEachFeature
+	}).addTo(map)
+
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend');
+		var grades = [-1, 0, 20, 40, 70, 100, 200, 300];
+		var labels = [];
+		var from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+
+			labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+
+
+
+</script>
