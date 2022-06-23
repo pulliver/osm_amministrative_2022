@@ -70,7 +70,8 @@ crossorigin="">
     };
 
     info.update = function (props) {
-        this._div.innerHTML = ' <table>'+
+        // console.log(feature.properties.Vergine)
+        this._div.innerHTML ='<table>'+
 '            <thead>'+
 '                <tr>'+
 '                    <th colspan="2"><h2>Esplora le votazioni 2022</h2></th>'+
@@ -100,7 +101,8 @@ crossorigin="">
 '                </tr>'+
 '                <tr>'+
 '                    <td><a href="index.html?param=7" title="Differenza di voti ANTONICA vs ANTONACI ">Antonica - Antonaci</a></td>'+
-'        </table>' 
+'        </table>'+
+        '<center>' + (props ? 'Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br>   ' +  '</center></b>'  );
 };
 
     info.addTo(map);
@@ -128,7 +130,7 @@ crossorigin="">
             // const urlParams = new URLSearchParams(queryString);
             // const candidato = urlParams.get('param')
         candidato = url_par()
-        console.log(candidato);
+        // console.log(candidato);
         var selezione
         switch(candidato){
             case '1' : // vergine
@@ -169,7 +171,7 @@ crossorigin="">
 	function highlightFeature(e) {
         console.log(e)
 		var layer = e.target;
-        consolo.log(layer)
+        console.log(layer)
 
 		layer.setStyle({
 			weight: 5,
@@ -182,7 +184,7 @@ crossorigin="">
 			layer.bringToFront();
 		}
 
-		info.update(layer.feature.properties.Sezione);
+		info.update(layer.feature.properties);
 	}
 
 	var geojson;
@@ -204,9 +206,9 @@ crossorigin="">
 		});
 	}
 
-    L.geoJSON(grafo, {
+    geojson = L.geoJSON(grafo, {
 		style: style
-		// ,onEachFeature: onEachFeature
+		,onEachFeature: onEachFeature
 	}).addTo(map)
 
 	var legend = L.control({position: 'bottomright'});
