@@ -41,9 +41,7 @@ crossorigin="">
       font-style: normal; }
     </style>
 
-
-<!-- <script src="strade28sezioniGalatina.js"></script> -->
-<script type="text/javascript" src="costruzioneGeoJson28Sezioni.js"></script>
+<script type="text/javascript" src="leaflet_api.js"></script>
 <script>
 
     function url_par(){
@@ -187,10 +185,10 @@ crossorigin="">
 		info.update(layer.feature.properties);
 	}
 
-	var geojson;
+	var mouseLegend;
 
 	function resetHighlight(e) {
-		geojson.resetStyle(e.target);
+		mouseLegend.resetStyle(e.target);
 		info.update();
 	}
 
@@ -206,7 +204,7 @@ crossorigin="">
 		});
 	}
 
-    geojson = L.geoJSON(grafo, {
+    mouseLegend = L.geoJSON(xls, {
 		style: style
 		,onEachFeature: onEachFeature
 	}).addTo(map)

@@ -1,4 +1,4 @@
-var grafo = [{
+var xls = [{
 	"type": "FeatureCollection",
 	"features": [
 		{
