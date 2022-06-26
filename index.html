@@ -42,6 +42,7 @@ crossorigin="">
     </style>
 
 <script type="text/javascript" src="leaflet_api.js"></script>
+<script type="text/javascript" src="sezioneParam.js"></script>
 <script>
 
     function url_par(){
@@ -101,6 +102,7 @@ crossorigin="">
 '                    <td><a href="index.html?param=7" title="Differenza di voti ANTONICA vs ANTONACI ">Antonica (R) - Antonaci (V)</a></td>'+
 '        </table>'+
         '<center>' + (props ? 'Sezione: <b>' + props.Sezione + '</b><br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
+        // '<center>' + (props ? 'Sezione: <b>' + lista[props.Sezione] + '</b><br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
 };
 
     info.addTo(map);
@@ -120,6 +122,21 @@ function getColor_red(d) {
             d > 60    ?  '#f89999' :
             d > 30 ?  '#fabbbb' : 
             d > 0 ?  '#fddddd' : '#959df2';
+    }
+
+    // legenda PSEUDO logaritmica
+    function getColor_red_log(d) {
+        return d > 300 ? '#000000' ://'##660707' :  //800026
+            d > 250  ? '#880a0a' :
+            d > 120  ? '#aa0c0c' :
+            d > 100  ? '#cc0f0f' :
+            d > 90   ? '#ee1212' :
+            d > 80   ? '#f03333' :
+            d > 70   ? '#f35555' :
+            d > 60    ? '#f57777' :
+            d > 50    ?  '#f89999' :
+            d > 30 ?  '#fabbbb' : 
+            d > 1 ?  '#fddddd' : '#959df2';
     }
     function getColor_red_green(d) {
         return d > 75 ? '#8e0152' ://'##660707' :  //800026
@@ -176,10 +193,16 @@ function getColor_red(d) {
                 selezione = feature.properties.Sezione;       
                 break;
         }
+        
+
+        // lista = [1, 11, 21, 31, 41, 51, 61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171, 181, 191, 201, 211, 221, 231, 241, 251, 261, 271]
+        lista_m5s_2017 = [42, 39, 22, 43, 49, 21, 54, 59, 23, 32, 44, 35, 84, 76, 41, 45, 43, 30, 43, 37, 28, 56, 48, 61, 0, 49, 48, 31]
+        sezioneX10 = lista[feature.properties.Sezione] 
         return {
             weight: 4,
             opacity: 1,
             color: (candidato > 4 ? getColor_red_green(selezione) : getColor_red(selezione)),//(feature.properties.Sezione) ,// 'black',
+            // color: (candidato > 4 ? getColor_red_green(selezione) : getColor_red(selezione)),//(feature.properties.Sezione) ,// 'black',
             dashArray: '5',
             fillOpacity: 0.7,
             fillColor: getColor_red(feature.properties.Vergine)
@@ -236,6 +259,8 @@ function getColor_red(d) {
 
 		var div = L.DomUtil.create('div', 'info legend');
 		var grades = [-1, 0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
+//      grades LOGARITMICA
+        // var grades = [-1, 1, 3, 5, 8, 12, 20, 33, 54, 90, 154, 244];
         var grades_ballot = [-75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75];
         (candidato > 4 ? grades = grades_ballot : null );
 		var labels = [];
@@ -246,7 +271,7 @@ function getColor_red(d) {
 			to = grades[i + 1];
         
 			labels.push(
-				'<i style="background:' + (candidato > 4 ? getColor_red_green(from + 1) : getColor_red(from + 1) )+ '"></i> ' +
+				'<i style="background:' + (candidato > 4 ? getColor_red_green(from + 1) : getColor_red_log(from + 1) )+ '"></i> ' +
 				from + (to ? '&ndash;' + to : '+'));
 		}
 
