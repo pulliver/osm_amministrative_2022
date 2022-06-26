@@ -131,7 +131,9 @@ crossorigin="">
 // '                    <td><a href="index_sperimentale.html?param=103" title="Differenza di voti ANTONICA vs ANTONACI ">Antonica (R) - Antonaci (V)</a></td>'+
 '        </table>'+
         // lista_pd_2022[props.Sezione -1]
-        '<center>' + (props ? 'Sezione: <b>' + props.Sezione + '</b> valore: ' + diff2(somma3(props.Vergine,props.Antonaci, (lista_sanso[props.Sezione-1])*2), somma3(props.Amante, props.Antonica, (lista_galatina_altra[props.Sezione-1])*2))  + ' <br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
+        '<center>' + (props ? 'Sezione: <b>' + props.Sezione + '</b> valore: ' + diff2(somma3(props.Vergine,props.Antonaci, (lista_sanso[props.Sezione-1])*2), somma3(props.Amante, props.Antonica, (lista_galatina_altra[props.Sezione-1])*2))  + ' <br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '<br></center></b>' + 
+        '<center><a href="index.html?param=1"> Torna alle mappe primo turno</center>'
+        );
         // '<center>' + (props ? 'Sezione: <b>' + lista[props.Sezione] + '</b><br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
 };
 
