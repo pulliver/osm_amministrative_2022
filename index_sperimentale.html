@@ -51,6 +51,14 @@ crossorigin="">
         const num_candidato = urlParams.get('param')
         return(num_candidato)
     }
+
+    function diff2(a,b){
+        return (parseInt(a) - parseInt(b))
+    }
+
+    function somma3(a,b,c){
+        return (parseInt(a) + parseInt(b) + parseInt(c))
+    }
     var map = L.map('map').setView([40.18, 18.17], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -105,7 +113,8 @@ crossorigin="">
 '                <tr>'+
 '                    <td><a href="index_sperimentale.html?param=103" title="Differenza di voti ANTONICA vs ANTONACI ">Antonica (R) - Antonaci (V)</a></td>'+
 '        </table>'+
-        '<center>' + (props ? 'Sezione: <b>' + props.Sezione + '</b> valore: ' + lista_pd_2022[props.Sezione] + ' <br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
+        // lista_pd_2022[props.Sezione -1]
+        '<center>' + (props ? 'Sezione: <b>' + props.Sezione + '</b> valore: ' + diff2(somma3(props.Vergine,props.Antonaci, (lista_sanso[props.Sezione-1])*2), somma3(props.Amante, props.Antonica, (lista_galatina_altra[props.Sezione-1])*2))  + ' <br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
         // '<center>' + (props ? 'Sezione: <b>' + lista[props.Sezione] + '</b><br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
 };
 
@@ -240,15 +249,18 @@ function getColor_red(d) {
         lista_m5s_2017 = [42, 39, 22, 43, 49, 21, 54, 59, 23, 32, 44, 35, 84, 76, 41, 45, 43, 30, 43, 37, 28, 56, 48, 61, 0, 49, 48, 31]
         lista_m5s_2022 = [11,28,18,19,22,20,12,24,14,22,14,23,25,19,18,7,11,11,16,10,25,25,50,20,2,8,12,14]
         lista_pd_2022 = [33,42,44,29,32,42,37,50,32,36,22,16,67,36,38,13,28,31,24,29,16,22,44,32,0,69,44,38]  //29 occorrenze
+        lista_sanso = [2,13,3,7,4,8,3,12,2,9,6,4,6,16,4,0,4,0,8,5,0,1,7,8,1,3,3,0,0]
+        lista_galatina_altra = [11,10,6,9,11,19,34,23,1,4,13,14,13,9,13,8,13,15,9,26,7,17,22,25,0,26,6,32,0]
         sezioneX10 = lista[feature.properties.Sezione] 
         selezione_M5S_2017 = lista_m5s_2017[parseInt(feature.properties.Sezione) - 1]
         selezione_M5S_2022 = lista_m5s_2022[parseInt(feature.properties.Sezione) - 1]
         selezione_M5S_diff_22_17 = selezione_M5S_2022 - selezione_M5S_2017
         selezione_pd_2022 = lista_pd_2022[parseInt(feature.properties.Sezione) - 1]
+        selezione_coalizioni_diff = feature.properties.Vergine + feature.properties.Antonaci + (lista_sanso[parseInt(feature.properties.Sezione) -1])* 2 - (lista_galatina_altra[parseInt(feature.properties.Sezione) - 1]) * 2 - feature.properties.Amante - feature.properties.Antonica 
         return {
             weight: 4,
             opacity: 1,
-            color: (candidato > 99 ? getColor_red_green(selezione) : getColor_red_m5s(selezione_pd_2022)),//(feature.properties.Sezione) ,// 'black',
+            color: (candidato > 99 ? getColor_red_green(selezione_coalizioni_diff) : getColor_red_green(selezione_coalizioni_diff)),//(feature.properties.Sezione) ,// 'black',
             // color: (candidato > 99 ? getColor_red_green(selezione) : getColor_red(selezione)),//(feature.properties.Sezione) ,// 'black',
             dashArray: '5',
             fillOpacity: 0.7,
@@ -310,9 +322,9 @@ function getColor_red(d) {
         var grades = [ 0, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70];
 //      grades LOGARITMICA
         // var grades = [-1, 1, 3, 5, 8, 12, 20, 33, 54, 90, 154, 244];
-        // var grades_ballot = [-75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75];
+        var grades_ballot = [-75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75];
         // vvvvv  legenda DIFF 22-17 M5S
-        var grades_ballot = [-30, -24, -18, -12, -6, 0, 6, 12, 18, 24, 30];
+        // var grades_ballot = [-30, -24, -18, -12, -6, 0, 6, 12, 18, 24, 30];
         (candidato > 100 ? grades = grades_ballot : null );
 		var labels = [];
 		var from, to;
@@ -322,7 +334,7 @@ function getColor_red(d) {
 			to = grades[i + 1];
         
 			labels.push(
-				'<i style="background:' + (candidato > 99 ? getColor_red_green(from + 1) : getColor_red_m5s_diff(from + 1) )+ '"></i> ' +
+				'<i style="background:' + (candidato > 99 ? getColor_red_green(from + 1) : getColor_red_green(from + 1) )+ '"></i> ' +
 				from + (to ? '&ndash;' + to : '+'));
 		}
 
