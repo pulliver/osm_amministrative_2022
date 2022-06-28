@@ -51,14 +51,6 @@ crossorigin="">
         const num_candidato = urlParams.get('param')
         return(num_candidato)
     }
-
-    function diff2(a,b){
-        return (parseInt(a) - parseInt(b))
-    }
-
-    function somma3(a,b,c){
-        return (parseInt(a) + parseInt(b) + parseInt(c))
-    }
     var map = L.map('map').setView([40.18, 18.17], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -83,57 +75,33 @@ crossorigin="">
 '                <tr>'+
 '                    <th colspan="2"><h2>Esplora &nbsp; le  votazioni &nbsp; 2022</h2></th>'+
 '                </tr>'+
-'                <tr>'+
-'                    <th colspan="2"><h3>DIFFERENZA<br> tra Vergine + Antocaci + Candidato Sansò<br></h3></th>'+
-'                </tr>'+
-
-'                <tr>'+
-'                    <th colspan="2"><h3>e Amante + Antoncica + lista Galatina Altra</h3></th>'+
-'                </tr>'+
-
-
 '            </thead>'+
 '            <tbody>'+
-
-
-// '            <thead>'+
-// '                <tr>'+
-// '                    <th colspan="2"><h2>Esplora &nbsp; le  votazioni &nbsp; 2022</h2></th>'+
-// '                </tr>'+
-// '            </thead>'+
-// '            <tbody>'+
-//     '                <tr>'+
-//     '                    <th colspan="2"><h3>I candidati sindaco</h3></th>'+
-//     '                </tr>'+
-// '                <tr>'+
-// '                    <td><a href="index_sperimentale.html?param=1" title="Preferenze candidato sindaco VERGINE">Vergine</a></td>'+
-// '                    <td><a href="index_sperimentale.html?param=2" title="Preferenze candidato sindaco AMANTE">Amante</a></td>'+
-// '                </tr>'+
-// '                <tr>'+
-// '                    <td><a href="index_sperimentale.html?param=3" title="Preferenze candidato sindaco ANTONICA">Antonica</a></td>'+
-// '                    <td><a href="index_sperimentale.html?param=4" title="Preferenze candidato sindaco ANTONACI">Antonaci</a></td>'+
-// '                </tr>'+
-// '                <tr>'+
-// '                    <td><a href="index_sperimentale.html?param=5" title="Preferenze M5S 2017">M5S 2017</a></td>'+
-// '                    <td><a href="index_sperimentale.html?param=6" title="Preferenze M5S 2017">Preferenze M5S 2017</a></td>'+
-// '                </tr>'+
-// '            </tbody>'+
-// '            <thead>'+
-// '                <tr>'+
-// '                    <th colspan="2"><h3>Confronti tra candidati</h3></th>'+
-// '                </tr>'+
-// '            <tbody>'+
-// '                <tr>'+
-// '                    <td><a href="index_sperimentale.html?param=101" title="Differenza di voti VERGINE vs AMANTE ">Vergine (R) - Amante (V)</a></td>'+
-// '                    <td><a href="index_sperimentale.html?param=102" title="Differenza di voti AMANTE vs ANTONICA">Amante (R) - Antonica (V)</a></td>'+
-// '                </tr>'+
-// '                <tr>'+
-// '                    <td><a href="index_sperimentale.html?param=103" title="Differenza di voti ANTONICA vs ANTONACI ">Antonica (R) - Antonaci (V)</a></td>'+
+    '                <tr>'+
+    '                    <th colspan="2"><h3>I candidati sindaco</h3></th>'+
+    '                </tr>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=1" title="Preferenze candidato sindaco VERGINE">Vergine</a></td>'+
+'                    <td><a href="index.html?param=2" title="Preferenze candidato sindaco AMANTE">Amante</a></td>'+
+'                </tr>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=3" title="Preferenze candidato sindaco ANTONICA">Antonica</a></td>'+
+'                    <td><a href="index.html?param=4" title="Preferenze candidato sindaco ANTONACI">Antonaci</a></td>'+
+'                </tr>'+
+'            </tbody>'+
+'            <thead>'+
+'                <tr>'+
+'                    <th colspan="2"><h3>Confronti tra candidati</h3></th>'+
+'                </tr>'+
+'            <tbody>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=5" title="Differenza di voti VERGINE vs AMANTE ">Vergine (R) - Amante (V)</a></td>'+
+'                    <td><a href="index.html?param=6" title="Differenza di voti AMANTE vs ANTONICA">Amante (R) - Antonica (V)</a></td>'+
+'                </tr>'+
+'                <tr>'+
+'                    <td><a href="index.html?param=7" title="Differenza di voti ANTONICA vs ANTONACI ">Antonica (R) - Antonaci (V)</a></td>'+
 '        </table>'+
-        // lista_pd_2022[props.Sezione -1]
-        '<center>' + (props ? 'Sezione: <b>' + props.Sezione + '</b> valore: ' + diff2(somma3(props.Vergine,props.Antonaci, (lista_sanso[props.Sezione-1])*2), somma3(props.Amante, props.Antonica, (lista_galatina_altra[props.Sezione-1])*2))  + ' <br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '<br></center></b>' + 
-        '<center><a href="index.html?param=1"> Torna alle mappe primo turno</center>'
-        );
+        '<center>' + (props ? 'Sezione: <b>' + props.Sezione + '</b><br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
         // '<center>' + (props ? 'Sezione: <b>' + lista[props.Sezione] + '</b><br> Vergine<b>' + props.Vergine + '</b>&nbsp;Amante<b>' + props.Amante + '</b> Antonica<b>' + props.Antonica + '</b> Antonaci<b>' + props.Antonaci + '</b>'  : '<br> <br>  ' +  '</center></b>'  );
 };
 
@@ -170,19 +138,6 @@ function getColor_red(d) {
             d > 30 ?  '#fabbbb' : 
             d > 1 ?  '#fddddd' : '#959df2';
     }
-    function getColor_red_m5s(d) {
-        return d > 70 ? '#000000' ://'##660707' :  //800026
-            d > 63  ? '#880a0a' :
-            d > 56  ? '#aa0c0c' :
-            d > 49  ? '#cc0f0f' :
-            d > 42   ? '#ee1212' :
-            d > 35   ? '#f03333' :
-            d > 28   ? '#f35555' :
-            d > 21    ? '#f57777' :
-            d > 14    ?  '#f89999' :
-            d > 7 ?  '#fabbbb' : 
-            d > 1 ?  '#fddddd' : '#959df2';
-    }
     function getColor_red_green(d) {
         return d > 75 ? '#8e0152' ://'##660707' :  //800026
             d > 60  ? '#c51b7d' :
@@ -195,19 +150,6 @@ function getColor_red(d) {
             d > -45    ?  '#7fbc41' :
             d > -60 ?  '#4d9221' : 
             d > -75 ?  '#276419' : '#00FF00';
-    }
-    function getColor_red_m5s_diff(d) {
-        return d > 30 ? '#8e0152' ://'##660707' :  //800026
-            d > 24  ? '#c51b7d' :
-            d > 18  ? '#de77ae' :
-            d > 12  ? '#f1b6da' :
-            d > 6   ? '#fde0ef' :
-            d > 0   ? '#e7ffff' :
-            d > -6   ? '#e6f5d0' :
-            d > -12    ? '#b8e186' :
-            d > -18    ?  '#7fbc41' :
-            d > -24 ?  '#4d9221' : 
-            d > -30 ?  '#276419' : '#00FF00';
     }
     
     
@@ -229,52 +171,38 @@ function getColor_red(d) {
             case '3' : // Antonica
                 selezione = feature.properties.Antonica;
                 break;
-                case '4' : // Antoncaci
+            case '4' : // Antoncaci
                 selezione = feature.properties.Antonaci;
                 break;
-
-            case '5' : // M5S 2017
-                selezione = feature.properties.Antonaci;
-                break;
-
-            case '101' : // VergineVsAmante
+            case '5' : // VergineVsAmante
                 selezione = feature.properties.VergineVsAmante;
                 break;
-            case '102' : // AmanteVsAntonica
+            case '6' : // AmanteVsAntonica
                 selezione = feature.properties.AmanteVsAntonica;
                 break;
-            case '103' : // AntonicaVsAntonaci
+            case '7' : // AntonicaVsAntonaci
                 selezione = feature.properties.AntonicaVsAntonaci; 
                 break; 
-            case '104' : // Vergine - (Amante + Sandra)
+            case '8' : // Vergine - (Amante + Sandra)
                 selezione = feature.properties.Vergine - (feature.properties.Amante + feature.properties.Antonica); 
                 break; 
-            case '105' : // Vergine - (Amante + Sandra)
-                selezione = (feature.properties.Vergine + feature.properties.Antonaci) - (feature.properties.Amante + feature.properties.Antonica); 
-                break; 
-            case '106' : // Vergine - (Amante + Sandra)
-                selezione = (feature.properties.Vergine + feature.properties.Antonaci) - (feature.properties.Amante + feature.properties.Antonica); 
-                break; 
-            case '107' : // Vergine - (Amante + Sandra)
+            case '9' : // Vergine - (Amante + Sandra)
                 selezione = (feature.properties.Vergine + feature.properties.Antonaci) - (feature.properties.Amante + feature.properties.Antonica); 
                 break; 
             default :
                 selezione = feature.properties.Sezione;       
                 break;
         }
+        
 
         // lista = [1, 11, 21, 31, 41, 51, 61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171, 181, 191, 201, 211, 221, 231, 241, 251, 261, 271]
+        lista_m5s_2017 = [42, 39, 22, 43, 49, 21, 54, 59, 23, 32, 44, 35, 84, 76, 41, 45, 43, 30, 43, 37, 28, 56, 48, 61, 0, 49, 48, 31]
         sezioneX10 = lista[feature.properties.Sezione] 
-        selezione_M5S_2017 = lista_m5s_2017[parseInt(feature.properties.Sezione) - 1]
-        selezione_M5S_2022 = lista_m5s_2022[parseInt(feature.properties.Sezione) - 1]
-        selezione_M5S_diff_22_17 = selezione_M5S_2022 - selezione_M5S_2017
-        selezione_pd_2022 = lista_pd_2022[parseInt(feature.properties.Sezione) - 1]
-        selezione_coalizioni_diff = feature.properties.Vergine + feature.properties.Antonaci + (lista_sanso[parseInt(feature.properties.Sezione) -1])* 2 - (lista_galatina_altra[parseInt(feature.properties.Sezione) - 1]) * 2 - feature.properties.Amante - feature.properties.Antonica 
         return {
             weight: 4,
             opacity: 1,
-            color: (candidato > 99 ? getColor_red_green(selezione_coalizioni_diff) : getColor_red_green(selezione_coalizioni_diff)),//(feature.properties.Sezione) ,// 'black',
-            // color: (candidato > 99 ? getColor_red_green(selezione) : getColor_red(selezione)),//(feature.properties.Sezione) ,// 'black',
+            color: (candidato > 4 ? getColor_red_green(selezione) : getColor_red(selezione)),//(feature.properties.Sezione) ,// 'black',
+            // color: (candidato > 4 ? getColor_red_green(selezione) : getColor_red(selezione)),//(feature.properties.Sezione) ,// 'black',
             dashArray: '5',
             fillOpacity: 0.7,
             fillColor: getColor_red(feature.properties.Vergine)
@@ -324,22 +252,43 @@ function getColor_red(d) {
 		,onEachFeature: onEachFeature
 	}).addTo(map)
 
+
+    var geojsonMarkerOptions = {
+        radius: 8,
+        fillColor: "#ff7800",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    };
+
+    
+    var geojsonFeature = {
+        "type": "Feature",
+        "properties": {
+            "name": "Coors Field",
+            "amenity": "Baseball Stadium",
+            "popupContent": "This is where the Rockies play!"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [18.16835, 40.17504]
+        }
+    };
+
+    L.geoJSON(geojsonFeature).addTo(map);
+
 	var legend = L.control({position: 'bottomright'});
 
 	legend.onAdd = function (map) {
         candidato = url_par()
 
 		var div = L.DomUtil.create('div', 'info legend');
-		// var grades = [-1, 0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
-        // vvv legenda per M5S
-        var grades = [ 0, 7, 14, 21, 28, 35, 42, 49, 56, 63, 70];
+		var grades = [-1, 0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
 //      grades LOGARITMICA
         // var grades = [-1, 1, 3, 5, 8, 12, 20, 33, 54, 90, 154, 244];
         var grades_ballot = [-75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75];
-        // vvvvv  legenda DIFF 22-17 M5S
-        // var grades_ballot = [-30, -24, -18, -12, -6, 0, 6, 12, 18, 24, 30];
-        // (candidato > 100 ? grades = grades_ballot : null );
-        grades = grades_ballot
+        (candidato > 4 ? grades = grades_ballot : null );
 		var labels = [];
 		var from, to;
 
@@ -348,7 +297,7 @@ function getColor_red(d) {
 			to = grades[i + 1];
         
 			labels.push(
-				'<i style="background:' + (candidato > 99 ? getColor_red_green(from + 1) : getColor_red_green(from + 1) )+ '"></i> ' +
+				'<i style="background:' + (candidato > 4 ? getColor_red_green(from + 1) : getColor_red_log(from + 1) )+ '"></i> ' +
 				from + (to ? '&ndash;' + to : '+'));
 		}
 
